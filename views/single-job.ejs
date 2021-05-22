@@ -1,0 +1,106 @@
+<%- include ('./partials/header') %>
+
+	<body id="single-job">
+
+		<%- include ('./partials/navbar') %>
+			<div class="container">
+				<div class="row single-job-container">
+					<div class="col-md-3 creator-col">
+						<p id="creator-info"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+								class="bi bi-file-earmark-person" viewBox="0 0 16 16">
+								<path d="M11 8a3 3 0 1 1-6 0 3 3 0 0 1 6 0z" />
+								<path
+									d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2v9.255S12 12 8 12s-5 1.755-5 1.755V2a1 1 0 0 1 1-1h5.5v2z" />
+							</svg>
+							Публикувано от:
+							<a href="/specialists/<%=job.createdBy.nickname%>"><%= job.createdBy.nickname%></a>
+						</p>
+						<p id="creator-info">
+							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+								class="bi bi-calendar2-range-fill" viewBox="0 0 16 16">
+								<path
+									d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zm9.954 3H2.545c-.3 0-.545.224-.545.5v1c0 .276.244.5.545.5h10.91c.3 0 .545-.224.545-.5v-1c0-.276-.244-.5-.546-.5zM10 7a1 1 0 0 0 0 2h5V7h-5zm-4 4a1 1 0 0 0-1-1H1v2h4a1 1 0 0 0 1-1z" />
+							</svg>
+							Регистриран: <%=moment(job.createdBy.createdAt).format("MMM YYYY"); %>
+						</p>
+
+					</div>
+
+					<div class="col-md-8 offset-1 job-details">
+						<div class="container">
+							<div class="row" style="border-bottom: 1px solid rgba(192, 190, 190, 0.8); margin-bottom: 3%; padding-bottom: 3%;">
+								<div class="col-md-6">
+										<span id="job-name"><%= job.name %></span>			
+								</div>
+							</div>
+							<div class="row" style="margin-bottom: 3%;">
+								<div class="col-md-6">
+									<a href="/joblist/category/<%=job.category%>"><span id="job-category"><%= job.category %></span></a>
+										
+										<br>
+										<br>
+										<span id="job-createdAt">Публикувана <%=moment(job.createdAt, "YYYYMMDD" ).fromNow(); %></span>
+								</div>
+							</div>
+							<p id="job-description">
+								<%= job.description%>
+							</p>
+						</div>
+						<div class="container">
+							<div class="row details-bottom-half">
+								<div class="col-md-6">
+									<span id="job-deadline">Срок за изпълнение: <%= job.deadline %> дни</span>
+								</div>
+								<div class="col-md-6">
+									<span id="job-budget">Бюджет: <%= job.price %> лв</span>
+								</div>
+
+							</div>
+						</div>
+						<div class="container">
+							<div class="row" style="text-align: center;">
+								
+								
+								<div class="col-md-12">
+								<!-- Button trigger modal -->
+								<button type="button" class="btn btn-success" data-bs-toggle="modal"
+									data-bs-target="#exampleModal">
+									Кандидатствай
+								</button>
+							</div>
+								<!-- Modal -->
+								<div class="modal fade" id="exampleModal" tabindex="-1"
+									aria-labelledby="exampleModalLabel" aria-hidden="true">
+									<div class="modal-dialog">
+										<div class="modal-content">
+											<div class="modal-header">
+												<h5 class="modal-title" id="exampleModalLabel"><%=job.name %></h5>
+												<button type="button" class="btn-close" data-bs-dismiss="modal"
+													aria-label="Close"></button>	
+											</div>
+											<div class="modal-body">
+												<form>
+													
+													<div class="mb-3">
+														<div class="form-floating">
+															<textarea class="form-control" placeholder="Leave a comment here" id="floatingTextarea2" style="height: 100px"></textarea>
+															<label for="floatingTextarea2">Съобщение</label>
+														  </div>
+													</div>
+												
+													<button type="submit" class="btn btn-success">Изпрати</button>
+												  </form>
+											</div>
+											
+										</div>
+									</div>
+								</div>
+								
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+
+			<%- include ('./partials/footer') %>

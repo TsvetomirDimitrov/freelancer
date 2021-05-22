@@ -1,0 +1,63 @@
+<%-include('./partials/header.ejs')%>
+
+	<body id="create-job">
+
+		<%- include ('./partials/navbar') %>
+			<div class="container create-job-heading">
+				<h1>Създай оферта</h1>
+			</div>
+			<div class="container create-job-container">
+				<div class="row">
+					<div class="col">
+						<form id="create-job-form" action="/profile/createOffer" method="post">
+							<div class="mb-3">
+								<label for="jobName" class="form-label">Заглавие</label>
+								<input type="text" name="jobName" class="form-control" aria-describedby="emailHelp">
+
+							</div>
+							<div class="mb-3">
+								<label for="jobDesc" class="form-label create-job-input">Описание</label>
+								<textarea name="jobDesc" rows="5" id="description-box"></textarea>
+							</div>
+							<div class="mb-3">
+								<label for="jobDeadline" class="form-label">Срок за изпълнение </label>
+								<input type="text" name="jobDeadline" class="form-control" aria-describedby="emailHelp">
+							</div>
+							<div class="mb-3">
+								<label for="jobPrice" class="form-label">Цена</label>
+								<input type="text" name="jobPrice" class="form-control" aria-describedby="emailHelp">
+							</div>
+							
+							<div class="mb-3">
+								<label for="jobTags" class="form-label">Категория</label>
+								<select name="jobCategory" class="form-select" aria-label="Default select example">
+									<option selected>Програмиране</option>
+									<option value="2">Социални мрежи</option>
+									<option value="3">Дизайн</option>
+									<option value="4">Училищни задачи</option>
+									<option value="5">Гейминг</option>
+									<option value="6">Google Ads</option>
+									<option value="7">2D/3D проектиране</option>
+									<option value="8">Видео</option>
+									<option value="9">Друго</option>
+								</select>
+							</div>
+
+							<button type="submit" class="btn btn-primary">Submit</button>
+						</form>
+					</div>
+				</div>
+			</div>
+
+
+
+
+
+
+
+
+
+
+
+
+			<%-include('./partials/footer.ejs')%>

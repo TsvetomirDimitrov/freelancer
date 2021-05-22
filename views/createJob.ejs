@@ -1,0 +1,83 @@
+<%-include('./partials/header.ejs')%>
+
+	<body id="create-job">
+
+		<%- include ('./partials/navbar') %>
+			<div class="container create-job-heading">
+				<h1>Създай обява</h1>
+			</div>
+			<div class="container create-job-container">
+				<div class="row">
+					<div class="col">
+						<form id="create-job-form" action="/profile/createJob" method="post">
+							<div class="mb-3">
+								<label for="jobName" class="form-label">Заглавие</label>
+								<input type="text" name="jobName" class="form-control" aria-describedby="emailHelp">
+
+							</div>
+							<div class="mb-3">
+								<label for="jobDesc" class="form-label create-job-input">Описание</label>
+								<textarea name="jobDesc" rows="5" id="description-box"></textarea>
+							</div>
+							<div class="mb-3">
+								<label for="jobDeadline" class="form-label">Срок за изпълнение </label>
+								<input type="text" name="jobDeadline" class="form-control" aria-describedby="emailHelp">
+							</div>
+							<div class="mb-3">
+								<label for="jobPrice" class="form-label">Бюджет</label>
+								<input type="text" name="jobPrice" class="form-control" aria-describedby="emailHelp">
+							</div>
+							<div class="mb-3">
+								<label for="jobTags" class="form-label">Нужни умения</label>
+								<input type="text" name="jobTags" class="form-control" aria-describedby="emailHelp">
+							</div>
+							<div class="mb-3">
+								<label for="jobTags" class="form-label">Категория</label>
+								<select name="jobCategory" class="form-select" aria-label="Default select example">
+									<option selected value="programming">Програмиране</option>
+									<option value="Социални мрежи">Социални мрежи</option>
+									<option value="Дизайн">Дизайн</option>
+									<option value="Училище">Училищни задачи</option>
+									<option value="Гейминг">Гейминг</option>
+									<option value="Google Ads">Google Ads</option>
+									<option value="Видео">Видео</option>
+									<option value="Друго">Друго</option>
+								</select>
+							</div>
+
+							<button type="submit" class="btn btn-primary">Submit</button>
+						</form>
+					</div>
+				</div>
+			</div>
+
+
+
+
+
+
+
+
+
+
+
+			<!-- <div class="container">
+
+		<form action="/profile/createJob" method="post">
+			
+			<input type="text" name="jobName">Name
+
+			<input type="text" name="jobDesc">Description
+
+			<input type="text" name="jobPrice"> Price
+
+
+			<button type="submit">Submit</button>
+
+		</form>
+	</div> -->
+
+
+
+
+			<%-include('./partials/footer.ejs')%>

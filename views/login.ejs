@@ -1,0 +1,19 @@
+<%-include('./partials/header')%>
+<body>
+	
+	<%- include ('./partials/navbar') %>
+	<div class="container">
+		<form action="/auth/local" method="POST">
+			<label for="email">email</label>
+			<input type="text" name="email">
+			<label for="password">password</label>
+			<input type="password" name="password">
+			<button type="submit">Вход</button>
+		</form>
+		<br>
+		Login with:
+		<a href="/auth/google"><button>Google</button></a>
+		<a href="/auth/facebook"><button>Facebook</button></a>
+	</div>
+	<a href="/">Home</a>
+	<%-include('./partials/footer')%>

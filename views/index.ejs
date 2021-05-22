@@ -1,0 +1,173 @@
+<%-include('./partials/header.ejs') %>
+
+	<body id="index-page">
+		<div class="container-fluid landing-container">
+			<%- include ('./partials/navbar') %>
+
+				<section id="landing-section">
+					<div class="container landing-container-text">
+						<div class="row">
+							<div class="col-md-6">
+								<div class="container">
+									<span>Имам нужда от </span>
+									<div class="flex">
+
+										<p class="header-sub-title" id="word"></p>
+										<p class="header-sub-title blink">|</p>
+
+
+									</div>
+								</div>
+								<div class="container justify-content-center">
+									<form class="form-form">
+										<div class="mb-3  landing-form">
+											<label for="search" class="form-label"></label>
+											<input type="search" class="form-control" id="search"
+												aria-describedby="searchBar">
+										</div>
+
+										<button type="submit" class="btn btn-info">Търси</button>
+									</form>
+								</div>
+							</div>
+							<div class="col-xl-6">
+								<img src="../public/images/undraw_Work_chat_re_qes4.svg" alt="" srcset="" style="height: 70%; width: 70%; margin-top: 15%;">
+							</div>
+						</div>
+				</section>
+		</div>
+
+
+
+
+		<section id="second-section" style="margin-bottom: 20%;">
+			<div class="container">
+				<div class="row second-section-row">
+					<div class="col-md-6 index-left" data-aos="fade-up" data-aos-duration="1000">
+						<p id="first-description" style="color: black; margin-bottom: 5%;">Талант? Имаме го. </p>
+					</div>
+					<div class="col-md-6 index-right" data-aos="fade-up" data-aos-duration="2700">
+						<p id="first-description" style="color: black; margin-bottom: 5%;">Офиси? Нямаме ги. </p>
+					</div>
+				</div>
+			</div>
+			<div class="container" data-aos="fade-down" style="margin-top: 5%;">
+				<div class="row third-section-row">
+					<div class="col">
+						<span id="find-pro">Открий от какви услуги имат нужда нашите потребители! Избери категория или потърси с
+							ключова дума!</span>
+					</div>
+				</div>
+			</div>
+			<div class="container">
+				<div class="row" style="margin-top: 10%;">
+					<div class="col-md-3 lg-4 zoom" data-aos="flip-up" data-aos-duration="1000">
+						<a href="/joblist/category/Програмиране">
+							<div class="test" id="job-type">
+								<img src="/public/images/coding.png" alt="компютърно програмиране">
+								<span>Програмиране</span>
+							</div>
+						</a>
+					</div>
+
+					<div class="col-md-3 lg-4 zoom" data-aos="flip-down">
+						<a href="/joblist/category/Социални мрежи">
+							<div class="test" id="job-type">
+
+								<img src="/public/images/social-media.png" alt="социални медии">
+								<span>Социални мрежи</span>
+
+							</div>
+						</a>
+
+					</div>
+					<div class="col-md-3 lg-4 zoom" data-aos="flip-up" data-aos-duration="1000">
+						<a href="/joblist/category/Дизайн">
+							<div class="test" id="job-type">
+								<img src="/public/images/computer.png" alt="">
+								<span>Дизайн</span>
+							</div>
+						</a>
+					</div>
+					<div class="col-md-3 lg-4 zoom" data-aos="flip-down">
+						<a href="/joblist/category/Училище">
+							<div class="test" id="job-type">
+								<img src="/public/images/calculating.png" alt="">
+								<span>Училищни задачи</span>
+							</div>
+						</a>
+					</div>
+					<div class="col-md-3 lg-4 zoom" data-aos="flip-up" data-aos-duration="1000">
+						<a href="/joblist/category/Гейминг">
+							<div class="test" id="job-type">
+								<img src="/public/images/joystick.png" alt="">
+								<span>Гейминг</span>
+							</div>
+						</a>
+					</div>
+					<div class="col-md-3 lg-4 zoom" data-aos="flip-down">
+						<a href="/joblist/category/Google Ads">
+							<div class="test" id="job-type">
+								<img src="/public/images/logotype.png" alt="">
+								<span>Google Ads</span>
+							</div>
+						</a>
+					</div>
+					<div class="col-md-3 lg-4 zoom" data-aos="flip-down">
+						<a href="/joblist/category/Видео">
+							<div class="test" id="job-type">
+								<img src="/public/images/video-camera.png" alt="">
+								<span>Видео</span>
+							</div>
+						</a>
+					</div>
+					<div class="col-md-3 lg-4 zoom" data-aos="flip-up" data-aos-duration="1000">
+						<a href="/joblist/category/2D/3D проектиране">
+							<div class="test" id="job-type">
+								<img src="/public/images/layers.png" alt="">
+								<span>Друго</span>
+							</div>
+						</a>
+					</div>
+
+
+				</div>
+			</div>
+
+
+		</section>
+
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
+		<script src="/public/assets/index.js"></script>
+		<script src="https://cdn.rawgit.com/michalsnik/aos/2.1.1/dist/aos.js"></script>
+
+		<script>
+			$(window).scroll(function () {
+				$('.pro-image').each(function () {
+					var imagePos = $(this).offset().top;
+
+					var topOfWindow = $(window).scrollTop();
+					if (imagePos < topOfWindow + 400) {
+						$(this).addClass("hatch");
+					}
+				});
+			});
+
+
+			AOS.init();
+		</script>
+
+		<%-include('./partials/footer.ejs')%>

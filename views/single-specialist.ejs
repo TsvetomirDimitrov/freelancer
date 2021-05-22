@@ -1,0 +1,247 @@
+<%-include ('./partials/header')%>
+
+	<body id="single-specialist">
+
+		<%-include ('./partials/navbar') %>
+
+
+
+			<div class="container" style="margin-top: 6%;">
+				<div class="row" id="first-row">
+					<div class="col-md-4">
+						<div class="container">
+							<div class="row" id="specialist-name-row">
+								<span>
+									<%= user.name %>
+										<%= user.surname %>
+								</span> <span style="font-size: 1rem;">
+									<%= user.nickname %>
+								</span>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-8">
+						<div class="row">
+							<span style="font-size: 1.3rem; color: gray;">Описание</span>
+						</div>
+						<br>
+						<div class="row">
+							<span style="font-size: 1.1rem; margin-bottom: 5%;">
+								<%=user.description%>
+							</span>
+						</div>
+
+						
+
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-4">
+						<div class="container" style="border-bottom: 1px solid rgba(33, 156, 238, 0.404)">
+
+							<span id="info-span">Информация</span>
+							<br>
+							<div id="info-row">
+								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+									class="bi bi-envelope" viewBox="0 0 16 16">
+									<path
+										d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2zm13 2.383-4.758 2.855L15 11.114v-5.73zm-.034 6.878L9.271 8.82 8 9.583 6.728 8.82l-5.694 3.44A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.739zM1 11.114l4.758-2.876L1 5.383v5.73z" />
+								</svg>
+								<%= user.email %>
+							</div>
+							<br>
+							<div id="info-row">
+								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+									class="bi bi-phone" viewBox="0 0 16 16">
+									<path
+										d="M11 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h6zM5 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H5z" />
+									<path d="M8 14a1 1 0 1 0 0-2 1 1 0 0 0 0 2z" />
+								</svg>
+								<span>123123213123</span>
+							</div>
+							<br>
+							<div id="info-row">
+								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+									class="bi bi-geo-alt" viewBox="0 0 16 16">
+									<path
+										d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A31.493 31.493 0 0 1 8 14.58a31.481 31.481 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94zM8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10z" />
+									<path d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
+								</svg>
+								<span>Varna</span>
+							</div>
+							<br>
+						</div>
+
+						<div class="container">
+							<span style="color: gray; font-size: 1.3rem;">Умения</span>
+							<br>
+							<% user.skills.forEach(skill=> { %>
+								<%= skill.toUpperCase() %>
+									<br>
+									<% }) %>
+						</div>
+					</div>
+					<div class="col-md-8">
+						<div class="container">
+							<div class="row">
+						<%offers.forEach(offer=> { %>
+							
+								
+							<div class="col-lg-6" style="margin-top: 5%;">
+
+								<div class="card" style="width: 18rem;">
+
+									<div class="card-body">
+										<h5 class="card-title">
+											<%=offer.name%>
+										</h5>
+										<p class="card-text" style="color: black;">
+											<%=offer.description%>
+										</p>
+									</div>
+									<ul class="list-group list-group-flush">
+										<li class="list-group-item">Минимален срок: <%= offer.deadline %> дни</li>
+										<li class="list-group-item">Минимална цена: <%= offer.price %> лв.</li>
+										<li class="list-group-item">A third item</li>
+									</ul>
+									<div class="card-body">
+										<a href="#" class="card-link">Card link</a>
+										<a href="#" class="card-link">Another link</a>
+									</div>
+								</div>
+						
+							
+						</div>
+							<% }) %>
+						</div>
+						</div>
+					</div>
+					<nav>
+						<div class="nav nav-tabs" id="nav-tab" role="tablist">
+							<button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab"
+								data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home"
+								aria-selected="true">Коментари</button>
+							<button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab"
+								data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile"
+								aria-selected="false">Услуги</button>
+							<button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab"
+								data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact"
+								aria-selected="false">Contact</button>
+						</div>
+					</nav>
+					<div class="col-md-6">
+						<!-- <span style="font-size: 1.3rem; color: gray;">Коментари</span> -->
+						<div class="tab-content" id="nav-tabContent">
+							<div class="tab-pane fade show active" id="nav-home" role="tabpanel"
+								aria-labelledby="nav-home-tab">
+
+								<div class="comments-container">
+
+									<div class="container">
+										<%user.comments.forEach(comment=> { %>
+
+											<br>
+											<div class="single-comment">
+												<span>От: <%=comment.postedBy.nickname%></span>
+												<br>
+												<span>
+													<%=comment.text%>
+												</span>
+												<br>
+											</div>
+											<% }) %>
+
+									</div>
+									<div class="mb-3" style="margin-top: 5%;">
+										<form id="commentForm">
+											<label for="exampleFormControlTextarea1" class="form-label">Остави коментар
+												за
+												потребителя</label>
+											<textarea name="commentText" class="form-control" id="commentText"
+												rows="3"></textarea>
+											<button class="btn btn-success" type="submit">Публикувай</button>
+										</form>
+									</div>
+								</div>
+
+
+
+							</div>
+							<div class="tab-pane fade" id="nav-profile" role="tabpanel"
+								aria-labelledby="nav-profile-tab">
+								<div class="container">
+									<div class="row">
+										
+									</div>
+								</div>
+							</div>
+							<div class="tab-pane fade" id="nav-contact" role="tabpanel"
+								aria-labelledby="nav-contact-tab">...</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+
+			<script>
+				$(function () {
+					$('#commentForm').submit(function (e) {
+						const sendTo = '<%= user.nickname %>';
+						const text = document.getElementById('commentText').value;
+						const data = { sendTo: sendTo, commentText: text };
+						e.preventDefault();
+
+						jQuery.ajax({
+							url: `/specialists/${sendTo}/newComment`,
+							type: "POST",
+							data: JSON.stringify({
+								sendTo: sendTo,
+								commentText: text
+							}),
+							contentType: "application/json; charset=utf-8",
+							dataType: "json",
+							success: function () {
+
+							}
+						})
+
+						fetch(`/specialists/fetch/${sendTo}`).then(result => result.json()).then(json => {
+							console.log(json)
+							Array.from(document.getElementsByClassName("comments-container")).forEach(el => {
+								el.innerHTML = json.comments.map(comment => {
+									return `
+									<br>
+									<div class="container">
+										<div class="single-comment">
+									<span>От: ${comment.postedBy.nickname}</span>
+									<br>
+									<span>${comment.text}</span>
+									<br>
+									</div>
+									</div>`
+								}).join('')
+							})
+
+						})
+					})
+				})
+
+				AOS.init();
+			</script>
+
+
+			<div class="tab-content" id="nav-tabContent">
+				<div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">...
+				</div>
+				<div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">...</div>
+				<div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">...</div>
+			</div>
+
+
+
+
+
+
+
+
+			<%-include('./partials/footer') %>

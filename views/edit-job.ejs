@@ -1,0 +1,55 @@
+<%-include('./partials/header.ejs')%>
+
+	<body id="create-job">
+
+		<%- include ('./partials/navbar') %>
+			<div class="container create-job-heading">
+				<h1>Промени обява</h1>
+			</div>
+			<div class="container create-job-container"  style="margin-bottom: 10%;">
+				<div class="row"  style="margin-bottom: 10%;">
+					<div class="col">
+						<form id="create-job-form" action="/profile/jobs/edit/<%=job.id %>?_method=PUT" method="post"> 
+							<div class="mb-3">
+								<label for="jobName" class="form-label">Заглавие</label>
+								<input type="text" value="<%= job.name %>" name="jobName" class="form-control" aria-describedby="emailHelp">
+
+							</div>
+							<div class="mb-3">
+								<label for="jobDesc" class="form-label create-job-input">Описание</label>
+								<textarea name="jobDesc" rows="5" id="description-box"> <%= job.description %> </textarea>
+							</div>
+							<div class="mb-3">
+								<label for="jobDeadline" class="form-label">Срок за изпълнение (в дни)	</label>
+								<input type="text" value="<%= job.deadline %>" name="jobDeadline" class="form-control" aria-describedby="emailHelp">
+							</div>
+							<div class="mb-3">
+								<label for="jobPrice" class="form-label">Бюджет (в лева)</label>
+								<input type="text" value="<%= job.price %>" name="jobPrice" class="form-control" aria-describedby="emailHelp">
+							</div>
+							<div class="mb-3">
+								<label for="jobTags" class="form-label">Нужни умения (разделени със запетая)</label>
+								<input type="text" name="jobTags" value="<%=job.skills%>" class="form-control" aria-describedby="emailHelp">
+							</div>
+							<div class="mb-3">
+								<label for="jobTags" class="form-label">Категория</label>
+								<select name="jobCategory" class="form-select" aria-label="Default select example">
+									<option selected value="Програмиране">Програмиране</option>
+									<option value="Социални мрежи">Социални мрежи</option>
+									<option value="Дизайн">Дизайн</option>
+									<option value="Училище">Училищни задачи</option>
+									<option value="Гейминг">Гейминг</option>
+									<option value="Google Ads">Google Ads</option>
+									<option value="Видео">Видео</option>
+									<option value="Друго">Друго</option>
+								</select>
+							</div>
+							<button type="submit" class="btn btn-success">Запази</button>
+							<a href="/profile"><button  class="btn btn-danger">Откажи</button></a>
+						</form>
+						
+					</div>
+				</div>
+			</div>
+
+			<%-include('./partials/footer.ejs')%>

@@ -1,0 +1,233 @@
+<%-include('./partials/header')%>
+
+	<body id="profile-page">
+
+		<%- include ('./partials/navbar') %>
+			<div class="container">
+
+
+
+
+				<ul class="nav nav-tabs" id="myTab" role="tablist">
+					<li class="nav-item" role="presentation">
+						<button class="nav-link active links" id="home-tab" data-bs-toggle="tab" data-bs-target="#home"
+							type="button" role="tab" aria-controls="home" aria-selected="true">Моите обяви</button>
+
+					</li>
+					<li class="nav-item" role="presentation">
+						<button class="nav-link links" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile"
+							type="button" role="tab" aria-controls="profile" aria-selected="true">Моите оферти</button>
+					</li>
+					<li class="nav-item" role="presentation">
+						<button class="nav-link links" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact"
+							type="button" role="tab" aria-controls="contact" aria-selected="true">Лична
+							информация</button>
+					</li>
+				</ul>
+
+
+
+				<div class="tab-content" id="myTabContent">
+					<div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+
+
+
+						<a href="/profile/createJob"><button class="btn btn-success"
+							style="margin-top: 2%; margin-bottom: 2%;">Нова обява</button></a>
+						<% if(Array.isArray(jobs) && jobs.length !==0){ %>
+
+							<div class="container" style="margin-top: 5%; width: 75%;">
+								<div class="accordion" id="accordionExample">
+									<% let i=1 %>
+										<% jobs.forEach(job=> { %>
+											<div class="accordion-item">
+												<h2 class="accordion-header" id="headingOne">
+													<button class="accordion-button" type="button"
+														data-bs-toggle="collapse" data-bs-target="#collapse<%=i%>"
+														aria-expanded="true" aria-controls="collapse<%=i%>">
+														<%= job.name %>
+													</button>
+												</h2>
+												<div id="collapse<%=i%>" class="accordion-collapse collapse"
+													aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+													<div class="accordion-body">
+														<%= job.description %>
+													</div>
+													<div class="container">
+														<div class="row" style="text-align: end; margin-bottom: 2%;">
+															<div class="col-md-6">
+																<form action="/profile/jobs/edit/<%=job.id%>">
+
+																	<button class='btn btn-info'
+																		type='submit'>Промени</button>
+																</form>
+
+															</div>
+															<div class="col-md-6">
+																<form
+																	action="/profile/jobs/delete/<%=job.id%>?_method=DELETE"
+																	method="post">
+
+																	<button class='btn btn-danger'
+																		type='submit'>Изтрий</button>
+																</form>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+											<% i++%>
+												<% }) %>
+								</div>
+							</div>
+							<% } %>
+
+
+					</div>
+
+
+
+
+
+
+
+
+
+					<div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+						<div class="container">
+							<a href="/profile/createOffer"><button class="btn btn-success"
+									style="margin-top: 2%; margin-bottom: 2%;">Нова оферта</button></a>
+							<div class="row">
+								<% if(Array.isArray(offers) && offers.length !==0){ %>
+									<%offers.forEach(offer=> { %>
+										<div class="col-md-4">
+
+											<div class="card" style="width: 18rem;">
+
+												<div class="card-body">
+													<h5 class="card-title">
+														<%=offer.name%>
+													</h5>
+													<p class="card-text">
+														<%=offer.description%>.
+													</p>
+												</div>
+												<ul class="list-group list-group-flush">
+													<li class="list-group-item">
+														<%=offer.price%>
+													</li>
+													<li class="list-group-item">
+														<%=offer.deadline%>
+													</li>
+													<li class="list-group-item">
+														<%=offer.category%>
+													</li>
+													<li class="list-group-item">A third item</li>
+												</ul>
+												<div class="card-body">
+													<a href="" class="card-link">Card link</a>
+													<a href="#" class="card-link">Another link</a>
+												</div>
+											</div>
+										</div>
+
+									<% }) %>
+
+								<%}%>
+
+
+							</div>
+						</div>
+
+
+					</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+					<div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+
+						<div class="container">
+							<div class="row" style="margin-top: 6%;">
+								<div class="col-md-4">
+									<p>Информацията, която давате за себе си е публична!
+									</p>
+								</div>
+
+								<div class="col-md-8">
+
+									<form action="/profile/edit/<%=currentUser.id%>?_method=PUT" method="post"
+										style="width: 75%; color: white;">
+										<div class="mb-3">
+											<label for="exampleInputEmail1" class="form-label">Email (не може да бъде
+												променян)</label>
+											<input class="form-control" type="text" placeholder="<%=currentUser.email%>"
+												aria-label="Disabled input example" disabled>
+
+
+
+										</div>
+										<div class="mb-3">
+											<label for="exampleInputEmail1" class="form-label">Псевдоним (не може да
+												бъде променян)</label>
+											<input class="form-control" type="text"
+												placeholder="<%=currentUser.nickname%>"
+												aria-label="Disabled input example" disabled>
+
+										</div>
+										<div class="mb-3">
+											<label for="exampleFormControlTextarea1" name="description"
+												class="form-label">Описание</label>
+											<textarea placeholder="<%=currentUser.description%>" class="form-control"
+												name="description" id="exampleFormControlTextarea1" rows="3"></textarea>
+										</div>
+										<label for="description" class="form-label">Умения (разделени със
+											запетая)</label>
+										<input class="form-control" name="skills" id="description" type="text"
+											placeholder="<%=currentUser.skills%>" aria-label="default input example">
+										<label for="phone" class="form-label">Телефонен номер</label>
+										<input class="form-control" name="phone" id="phone" type="text"
+											placeholder="<%=currentUser.phone%>" aria-label="default input example">
+										
+											<label for="city" class="form-label">Град</label>
+										<input class="form-control" name="city" id="city" type="text"
+											placeholder="<%=currentUser.city%>" aria-label="default input example">
+										<div class="form-check" style="margin-top: 1%;">
+											<input class="form-check-input" type="radio" name="flexRadioDefault"
+												id="flexRadioDefault1">
+											<label class="form-check-label" for="flexRadioDefault1">
+												Желая да бъда намиран като специалист
+											</label>
+										</div>
+										<button style="margin-top: 1%;" type="submit"
+											class="btn btn-success">Запази</button>
+									</form>
+
+
+								</div>
+							</div>
+						</div>
+
+
+					</div>
+				</div>
+
+			</div>
+
+			
+
+
+
+
+			<%-include('./partials/footer')%>

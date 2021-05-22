@@ -1,0 +1,132 @@
+<%-include ('./partials/header') %>
+
+	<body id="specialists">
+
+		<%-include ('./partials/navbar') %>
+
+			<!-- <div class="container heading" id="p">
+				<span id="photo-heading">Открийте правилният специалист за вашите нужди!</span>
+			</div> -->
+			<!-- <div class="container">
+				<div class="input-group mb-3" style="padding-top: 6%; width: 25%;">
+					<span class="input-group-text" id="basic-addon1"><svg xmlns="http://www.w3.org/2000/svg" width="16"
+							height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+							<path
+								d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+						</svg></span>
+					<input id="search" type="text" class="form-control" placeholder="Търсене" aria-label="Username"
+						aria-describedby="basic-addon1">
+				</div>
+			</div> -->
+			<div class="container">
+				<div class="row" style="margin: 5% 0 10% 0;" data-aos="fade-zoom-in"
+				data-aos-easing="zoom-in"
+				data-aos-delay="600"
+				data-aos-offset="0">
+					<div class="col">
+						<div class="container">
+						<div class="row">
+							<div class="col-md-6">
+								<span id="specialists-description">Открий правилният специалист за твоите нужди!</span>
+							</div>
+							<div class="col-md-6" style="height: 30%;">
+								<img id="work-together-img" src="../public/images/undraw_work_together_h63l.svg" alt="" srcset="">
+							</div>
+						</div>
+					</div>
+					</div>
+			</div>
+			<div class="container" >
+
+				<div class="row specialists-row">
+					<% user.forEach((res)=> { %>
+
+						<div class="col-md-4"  data-aos="fade-in" style="margin-top: 5%;">
+							<a href="/specialists/<%=res.nickname%>">
+								<div class="card">
+									<div class="card-body">
+										<h5 class="card-title">
+											<p style="color: black;">
+												<%= res.name%>
+													<%=res.surname%>
+										</h5>
+										</p>
+										<h6 class="card-subtitle mb-2 text-muted">
+											<%= res.nickname%>
+										</h6>
+										<br>
+										<h5 class="card-subtitle mb-2 text-muted">
+											Умения
+											<br>
+											<br>
+											<%= res.skills.join(' ')%>
+										</h5>
+										<br>
+										<p style="color: black;" class="card-text"><%=res.description%></p>
+									
+									</div>
+								</div>
+							</a>
+						</div>
+
+						<% }) %>
+				</div>
+			</div>
+			
+
+
+	
+			<script src="https://cdn.rawgit.com/michalsnik/aos/2.1.1/dist/aos.js"></script>
+
+			<script>
+				AOS.init();
+
+				// const input = document.getElementById('search'); input.addEventListener('keypress', (e) => {
+				// 	if (e.key === 'Enter') {
+				// 		// const val = input.value;
+				// 		console.log('e')
+				// 		// console.log("The term searched for was " + input.value);
+				// 		fetch('/specialists/filtered/' + input.value).then(result =>
+				// 			result.json()).then(json => { Array.from(document.getElementsByClassName("specialists-row")).forEach(el=> {
+				// 					// const parent = el.parentNode;
+				// 					el.innerHTML = json.map(user => {
+										
+				// 						return `<div class="col-md-4">
+				// 									<a href="/specialists/${user.nickname}">
+				// 										<div class="card"
+				// 											style="width: 25rem; height: 20rem; border-radius: 15px;">
+				// 											<div class="card-body">
+				// 												<h5 class="card-title">
+				// 													${user.name}
+				// 													${user.surname}
+				// 												</h5>
+				// 												<h6 class="card-subtitle mb-2 text-muted">
+				// 													${user.nickname}
+				// 												</h6>
+				// 												<h6 class="card-subtitle mb-2 text-muted">
+				// 													${user.nickname}
+				// 												</h6>
+				// 												<p style="color: black;" class="card-text">Some quick
+				// 													example text to build on
+				// 													the card title and make up the
+				// 													bulk
+				// 													of the card's content.</p>
+				// 												<a href="#" class="card-link">Card link</a>
+				// 												<a href="#" class="card-link">Another link</a>
+				// 											</div>
+				// 										</div>
+				// 									</a>
+				// 								</div>`
+				// 					}).join('')
+				// 				})
+
+
+				// 			})
+				// 	}
+				// })
+
+			</script>
+
+
+
+												<%-include ('./partials/footer') %>

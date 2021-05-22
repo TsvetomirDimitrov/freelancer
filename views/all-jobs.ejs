@@ -1,0 +1,313 @@
+<%- include ('./partials/header') %>
+
+	<body id="all-jobs">
+
+		<%- include ('./partials/navbar') %>
+			<%- include ('./partials/navbar-joblinks') %>
+
+				<div class="container">
+
+					<!-- <div class="jumbotron" style="background-image: url('../public/images/undraw_work_in_progress_uhmv.svg'); background-size: cover;">
+						<h1 class="display-4">Hello, world!</h1>
+						<p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
+						<hr class="my-4">
+						<p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
+						<p class="lead">
+						  <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
+						</p>
+					  </div> -->
+					<!-- <div class="row">
+						  <div class="col-md-6" style="background-image: url(../public/images/undraw_work_in_progress_uhmv.svg); background-size: cover; height: 50vh;">
+
+						  </div>
+					  </div> -->
+					<div class="row" style="margin-top: 5%;"  data-aos="fade-zoom-in" data-aos-easing="zoom-in"
+					data-aos-delay="600" data-aos-offset="0">
+						<div class="col-md-12">
+							<div class="row" >
+								<div class="col-md-6">
+									<span id="all-jobs-description">Открий от какви услуги имат нужда нашите
+										потребители! Филтрирай по категоря или потърси по ключова дума!</span>
+								</div>
+								<div class="col-md-6" style="height: 30%;">
+									<img id="work-progress-img" src="../public/images/undraw_work_in_progress_uhmv.svg"
+										alt="" srcset="">
+								</div>
+							</div>
+						</div>
+						<div class="col"
+							style="box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23); width: 50%;">
+
+							<div id="the-basics">
+								<p style="color: black;">Филтрирай по нужни умения</p>
+								<div class="input-group mb-3" style="padding-top: 6%; width: 40%;">
+
+
+									<span class="input-group-text" id="basic-addon1"><svg
+											xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+											fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+											<path
+												d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+										</svg></span>
+
+
+									<input id="search" class="typeahead" type="search" autofocus autocomplete="off"
+										placeholder="Опитай с javascript" aria-label="Username"
+										aria-describedby="basic-addon1">
+								</div>
+							</div>
+						</div>
+
+					</div>
+
+					<div class="row job-results-container">
+
+						<% jobs.forEach((res)=>{%>
+
+							<div class="col-lg-6" align="center"   data-aos="fade-in" data-aos-duration="900">
+
+
+								<div class="container  job-result-card">
+									<div class="row">
+										<div class="col-md-6">
+											<p id="job-name">
+												<%=res.name %>
+											</p>
+										</div>
+										<br>
+
+										<div class="col-md-6 right-side">
+											<p id="job-created-at">Публикувана
+
+												<%=moment(res.createdAt, "YYYYMMDD" ).fromNow(); %>
+											</p>
+										</div>
+									</div>
+									<div class="col">
+										<p id="job-description">
+											<%= res.description %>
+
+										</p>
+									</div>
+									<!-- <div class="container"> -->
+									<div class="row bottom-half">
+										<div class="col-md-6 left-side">
+											<p id="job-deadline">
+												Срок за изпълнение: <%= res.deadline %> дни
+											</p>
+											<br>
+
+											<a href="/joblist/category/<%=res.category%>"><span id="job-category">
+													<%= res.category %>
+												</span></a>
+										</div>
+										<div class="col-md-6 right-side">
+											<p id="job-creator">Бюджет: <%= res.price %> лв </p>
+											<br>
+											<a href="/joblist/<%= res.id %>">
+												<button class="btn btn-success view-more-button">Виж повече</button>
+											</a>
+										</div>
+									</div>
+
+									<!-- </div> -->
+								</div>
+
+
+
+							</div>
+
+							<% }) %>
+					</div>
+
+
+
+				</div>
+
+				<a id="back-to-top" href="#" class="btn btn-info btn-lg back-to-top" role="button"><svg
+						xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+						class="bi bi-arrow-up" viewBox="0 0 16 16">
+						<path fill-rule="evenodd"
+							d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5z" />
+					</svg></i></a>
+
+
+
+					<script src="https://cdn.rawgit.com/michalsnik/aos/2.1.1/dist/aos.js"></script>
+
+				
+					
+
+
+				<script>
+					AOS.init();
+
+
+
+					const input = document.getElementById('search');
+
+					input.addEventListener('keypress', (e) => {
+						if (e.key === 'Enter') {
+							const val = input.value;
+							// console.log("The term searched for was " + input.value);
+							fetch('/joblist/filtered/' + input.value).then(result => result.json()).then(json => {
+								console.log(json)
+								Array.from(document.getElementsByClassName("job-results-container")).forEach(el => {
+									const parent = el.parentNode;
+
+									el.innerHTML = json.map(job => {
+										// let createdAt = job.createdAt;
+										// function timeCreated(){
+										// 	moment(job.createdAt, "YYYYMMDD" ).fromNow();
+										// }
+
+
+										return `<div class= "col-lg-6" align="center"   data-aos="fade-in" data-aos-duration="900">
+
+<a href="/joblist/${job._id}">
+	<div class="container  job-result-card">
+		<div class="row">
+			<div class="col-md-6">
+				<p id="job-name">
+					${job.name} 
+				</p>
+			</div>
+			<br>
+
+			<div class="col-md-6 right-side">
+				<p id="job-created-at">Публикувана
+
+					
+				</p>
+			</div>
+		</div>
+		<div class="col">
+		<p id="job-description">
+			${job.description} 
+
+		</p>
+	</div>
+		<!-- <div class="container"> -->
+		<div class="row bottom-half">
+			<div class="col-md-6 left-side">
+				<p id="job-deadline">
+					Срок за изпълнение: ${job.deadline}  дни
+				</p>
+				
+			<p style="color: black;">${job.tags}</p>
+				
+			</div>
+			<div class="col-md-6 right-side">
+				<p id="job-creator">Бюджет: ${job.price} лв </p>
+
+				
+				<button class="btn btn-info view-more-button">Виж повече</button>
+			</div>
+		</div>
+		
+		<!-- </div> -->
+	</div>
+</a>
+
+
+</div>`
+									}).join('');
+								});
+
+
+							})
+						}
+					})
+
+					// fetch('/profile/getMessages').then(result => result.json()).then(json =>{
+					// 				text.innerHTML = json[0].text
+
+				
+				</script>
+
+
+				<script>
+					var substringMatcher = function (strs) {
+						return function findMatches(q, cb) {
+							var matches, substringRegex;
+
+							// an array that will be populated with substring matches
+							matches = [];
+
+							// regex used to determine if a string contains the substring `q`
+							substrRegex = new RegExp(q, 'i');
+
+							// iterate through the pool of strings and for any string that
+							// contains the substring `q`, add it to the `matches` array
+							$.each(strs, function (i, str) {
+								if (substrRegex.test(str)) {
+									matches.push(str);
+								}
+							});
+
+							cb(matches);
+						};
+					};
+
+
+
+					var data = '<%- JSON.stringify(jobs) %>'
+
+					var test = {
+						dataset: JSON.parse(data)
+					}
+
+					var keywords = []
+
+					Object.entries(test).forEach(
+						([key, value]) => value.forEach(val => {
+							val.tags.forEach(res => {
+								if (keywords.indexOf(res) === -1) {
+									keywords.push(res)
+								}
+							})
+						})
+					)
+
+
+					$('#the-basics .typeahead').typeahead({
+						hint: true,
+						highlight: true,
+						minLength: 1
+					},
+						{
+							name: 'keywords',
+							source: substringMatcher(keywords)
+						});
+
+
+
+					$(function () {
+						$(document).scroll(function () {
+							var $nav = $(".navbar-joblinks");
+							$nav.toggleClass('scrolled', $(this).scrollTop() > $nav.height());
+						});
+					});
+
+
+
+
+					$(document).ready(function () {
+						$(window).scroll(function () {
+							if ($(this).scrollTop() > 50) {
+								$('#back-to-top').fadeIn();
+							} else {
+								$('#back-to-top').fadeOut();
+							}
+						});
+						// scroll body to 0px on click
+						$('#back-to-top').click(function () {
+							$('body,html').animate({
+								scrollTop: 0
+							}, 400);
+							return false;
+						});
+					});
+				</script>
+
+				<%- include('./partials/footer') %>
