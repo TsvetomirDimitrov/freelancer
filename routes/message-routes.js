@@ -1,11 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const Message = require('../models/messageModel');
-const moment = require('moment');
+// const moment = require('moment');
 const axios = require('axios');
 
+
 router.get('/', (req, res)=> {
-	res.render('messages', {moment:moment, axios:axios})
+	res.render('messages', {axios:axios})
 })
 //add
 

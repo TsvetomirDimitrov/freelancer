@@ -19,6 +19,7 @@ const Job = require('./models/jobsModel');
 const flash = require('connect-flash');
 const underscore = require('underscore');
 var socket = require('socket.io');
+require('moment/locale/bg')
 
 mongoose.connect('mongodb://localhost:27017/freelance', { useNewUrlParser: true, useUnifiedTopology: true, ignoreUndefined: true, useFindAndModify: false });
 
@@ -27,8 +28,9 @@ mongoose.connect('mongodb://localhost:27017/freelance', { useNewUrlParser: true,
 const dateFormat = "YYYYMMDD";
 app.locals.moment = moment;
 app.locals.dateFormat = dateFormat;
-app.locals.test = "test";
 app.locals.underscore = underscore;
+app.locals.moment.locale('bg')
+
 
 app.use(flash());
 app.use('/public', express.static('public'));
@@ -64,7 +66,7 @@ app.use('/specialists', specialistsRouter);
 
 app.get('/', (req, res) => {
 
-
+	
 	console.log('home');
 	if (req.user) {
 		const lo = _.omit(JSON.parse(JSON.stringify(req.user)), ['password']);

@@ -5,34 +5,34 @@
 		<%- include ('./partials/navbar') %>
 
 
-			
-				<div class="container">
-					<div class="row">
-						<div class="col-md-4">
-							
-								
 
-									<input type="text" placeholder="Разговори" class="chatMenuInput">
-									<div class="users">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-4">
 
-									</div>
-								
-							
+
+
+						<input type="text" placeholder="Разговори" class="chatMenuInput">
+						<div class="users">
+
 						</div>
-						<div class="col-md-8">
-							
-									<div id="messages" class="messages">
 
-									</div>
-									<div class="form messages-form">
-										<textarea name="text" id="text" cols="80" rows="2"></textarea>
-										<button class="btn btn-success" id="send" type="submit">Изпрати</button>
-									</div>
-							
+
+					</div>
+					<div class="col-md-8 chat-container">
+
+						<div id="messages" class="messages">
+
 						</div>
+						<div class="form messages-form">
+							<textarea name="text" id="text" cols="80" rows="2"></textarea>
+							<button class="btn btn-success" id="send" type="submit">Изпрати</button>
+						</div>
+
 					</div>
 				</div>
-			
+			</div>
+
 
 
 
@@ -41,8 +41,10 @@
 
 
 			<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.js"></script>
-
+			<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script> -->
 			<script>
+
+				moment.locale('bg')
 
 				let socketIds = new Set;
 				var io = io.connect('http://localhost:3000');
@@ -123,6 +125,7 @@
 						sendTo = '';
 						$(document).on('click', '.chatUser', async function (e) {
 
+							console.log(moment.locale())
 							$(this).addClass('selectedUser')
 							$('.chatUser').not(this).removeClass('selectedUser')
 
@@ -173,10 +176,10 @@
 
 									// console.log(el.sender == '<%=currentUser.id%>')
 									if (el.sender != '<%=currentUser.id%>') {
-										$(".messages").append(`<div class="msg" style="text-align: left; width=150px;"><p style="color:red;">${value}: <br>${el.text}</p></div>`)
+										$(".messages").append(`<div class="msg" style="text-align: right; width=150px;"><p style="color:red;">${value}: <br>${el.text}<br>${moment(el.createdAt, "YYYYMMDD").fromNow()}</p></div>`)
 									} else if (el.sender == '<%=currentUser.id%>') {
 										// console.log(el.sender)
-										$(".messages").append(`<div class="msg" style="text-align: right;"><p style="color:blue;text-align="right">Вие: <br> ${el.text}</p></div>`)
+										$(".messages").append(`<div class="msg" style="text-align: left;"><p style="color:blue;text-align="right">Вие: <br>${el.text} ${moment(el.createdAt, "YYYYMMDD").fromNow()}</p></div>`)
 									}
 
 
@@ -193,7 +196,7 @@
 
 
 							console.log(chattingWithId, msg)
-							$(".messages").append(`<div class="msg">${otherNickname}: <br> <p style="color:red;">${msg.text}</p></div>`)
+							$(".messages").append(`<div class="msg">${otherNickname}: <br> <p style="text-align: right; width=150px;">${msg.text}</p></div>`)
 							$('#messages').scrollTop(Number.MAX_SAFE_INTEGER);
 
 						})
