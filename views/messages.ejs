@@ -1,12 +1,228 @@
 <%- include ('./partials/header') %>
 
-	<body>
+	<body id="messages-page">
 
 		<%- include ('./partials/navbar') %>
 
 
+			
+				<div class="container">
+					<div class="row">
+						<div class="col-md-4">
+							
+								
 
-		<h1>msg</h1>
+									<input type="text" placeholder="Разговори" class="chatMenuInput">
+									<div class="users">
+
+									</div>
+								
+							
+						</div>
+						<div class="col-md-8">
+							
+									<div id="messages" class="messages">
+
+									</div>
+									<div class="form messages-form">
+										<textarea name="text" id="text" cols="80" rows="2"></textarea>
+										<button class="btn btn-success" id="send" type="submit">Изпрати</button>
+									</div>
+							
+						</div>
+					</div>
+				</div>
+			
+
+
+
+
+
+
+
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.js"></script>
+
+			<script>
+
+				let socketIds = new Set;
+				var io = io.connect('http://localhost:3000');
+				io.on('connect', function (data) {
+					io.emit('user', '<%=currentUser.id%>')
+					io.on('ids', (msg) => {
+						for (let user of (new Map(msg))) {
+							socketIds.add(user)
+						}
+					})
+
+				});
+
+				io.on('message', (data) => {
+					console.log(data)
+				})
+
+
+
+
+
+				let conversationsArray = []
+
+				// //fetch all current user conversations
+				let ids = []
+				let idss = {}
+				const getConversation = async () => {
+					// fetch('/conversations/<%=currentUser.id%>')
+					// .then(result => result.json()).then(json =>{
+
+					// 	console.log(json)
+
+					// })
+
+					const res = await axios.get('/conversations/<%=currentUser.id%>').then(res => {
+						// console.log(res.data)
+						res.data.forEach(a => {
+
+							if (a.members[0] != '<%=currentUser.id%>') {
+
+								ids.push(a.members[0])
+								// console.log(name)
+							} else {
+								ids.push(a.members[1])
+
+							}
+						})
+					})
+					let users = document.getElementsByClassName("users")[0];
+					ids.forEach(id => {
+						let nickname = ''
+						axios.get('/conversations/getUser/' + id).then(res => {
+							nickname = res.data.nickname
+							// console.log(nickname)
+
+							let btn = document.createElement("button");
+							btn.className = "chatUser"
+							btn.id = `${id}`;
+							// let content = document.createTextNode(`${nickname}`)
+							btn.innerText = `${nickname}`
+							// console.log(nickname)
+							// btn.appendChild(content)
+							users.appendChild(btn)
+							// users.appendChild(`<button id= "chatUser"style="color:black";>${nickname}</button>`)
+						})
+					})
+
+					const msgBox = document.getElementsByClassName("messages");
+					let conversationId = ''
+					let otherNickname = ''
+					let chattingWithId = ''
+
+					$(function () {
+
+
+
+						sendFrom = '';
+						sendTo = '';
+						$(document).on('click', '.chatUser', async function (e) {
+
+							$(this).addClass('selectedUser')
+							$('.chatUser').not(this).removeClass('selectedUser')
+
+
+
+							sendTo = '';
+							$(".messages").empty();
+							const value = $(this).text();
+							const id = $(this).attr('id');
+							chattingWithId = id
+							otherNickname = value
+							// console.log(id)
+							// console.log(value)
+
+
+							// Array.from(socketIds).forEach(r => {
+							// 	if (r[0] != '<%=currentUser.id%>') {
+							// 		// console.log(r[0])
+							// 		sendTo= r
+							// 	}
+
+							// })
+
+							Array.from(socketIds).forEach(r => {
+								if (r[0] == id) {
+									console.log(r[0])
+									sendTo = r
+								}
+								// console.log(r)
+
+							})
+
+
+							console.log('send to', sendTo)
+
+							let convoId = await axios.get('/conversations/' + id).then(res => {
+								return (res.data[0]._id)
+
+							})
+							conversationId = convoId
+							// console.log(convoId)
+
+
+							const getMessages = axios.get('/messages/' + convoId).then(res => {
+								console.log(res.data)
+
+								res.data.forEach(el => {
+
+									// console.log(el.sender == '<%=currentUser.id%>')
+									if (el.sender != '<%=currentUser.id%>') {
+										$(".messages").append(`<div class="msg" style="text-align: left; width=150px;"><p style="color:red;">${value}: <br>${el.text}</p></div>`)
+									} else if (el.sender == '<%=currentUser.id%>') {
+										// console.log(el.sender)
+										$(".messages").append(`<div class="msg" style="text-align: right;"><p style="color:blue;text-align="right">Вие: <br> ${el.text}</p></div>`)
+									}
+
+
+								})
+								$('#messages').scrollTop(Number.MAX_SAFE_INTEGER);
+
+							})
+						})
+
+
+
+						io.on('sent message', (msg) => {
+							console.log('мсг то', msg.to)
+
+
+							console.log(chattingWithId, msg)
+							$(".messages").append(`<div class="msg">${otherNickname}: <br> <p style="color:red;">${msg.text}</p></div>`)
+							$('#messages').scrollTop(Number.MAX_SAFE_INTEGER);
+
+						})
+
+
+					})
+
+
+
+
+
+					$(function () {
+
+						$(document).on('click', '#send', async function (e) {
+
+
+							let text = $('#text').val();
+							e.preventDefault();
+							// console.log(conversationId)
+							if (text != '') {
+								const message = {
+									sender: '<%=currentUser.id%>',
+									text: text,
+									conversationId: conversationId
+								}
+								const res = await axios.post("/messages", message);
+								$(".messages").append(`<div class="msg">Вие: <br> <p style="color:blue;">${text}</p></div>`)
+							}
+							$('#messages').scrollTop(Number.MAX_SAFE_INTEGER);
 
 
 
@@ -16,4 +232,30 @@
 
 
 
-		<%- include ('./partials/footer') %>
+
+
+
+
+							io.emit('chat message', {
+								from: '<%=currentUser.id%>',
+								to: sendTo[1],
+								text: $('#text').val()
+							})
+							$('#text').val('');
+							return false;
+						})
+					})
+				}
+				getConversation()
+
+
+
+
+
+			</script>
+
+
+
+
+
+			<%- include ('./partials/footer') %>

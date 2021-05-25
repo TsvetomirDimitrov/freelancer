@@ -6,8 +6,9 @@ const profileRouter = require('./routes/profile-routes');
 const jobListRouter = require('./routes/jobList-routes');
 const specialistsRouter = require('./routes/specialists-routes');
 const messagesRouter = require('./routes/message-routes');
+const conversationRouter = require('./routes/conversations-routes');
 const passportSetup = require('./config/passport-setup');
-const session = require('express-session');
+const session = require('express-session')
 const keys = require('./config/keys');
 const cookieSession = require('cookie-session');
 const passport = require('passport');
@@ -17,6 +18,7 @@ const _ = require('lodash');
 const Job = require('./models/jobsModel');
 const flash = require('connect-flash');
 const underscore = require('underscore');
+var socket = require('socket.io');
 
 mongoose.connect('mongodb://localhost:27017/freelance', { useNewUrlParser: true, useUnifiedTopology: true, ignoreUndefined: true, useFindAndModify: false });
 
@@ -56,6 +58,7 @@ app.use((req, res, next) => {
 app.use('/auth', authRouter);
 app.use('/profile', profileRouter);
 app.use('/messages', messagesRouter);
+app.use('/conversations', conversationRouter);
 app.use('/joblist', jobListRouter);
 app.use('/specialists', specialistsRouter);
 
@@ -70,6 +73,8 @@ app.get('/', (req, res) => {
 		res.render('index');
 	}
 });
+
+
 
 app.get('/why', (req, res) => {
 	res.render('why', { user: req.user })
@@ -86,7 +91,42 @@ app.get('*', (req, res) => {
 	res.send('404 greshka')
 })
 
+var server = app.listen(process.env.PORT || 3000, function () {
+	console.log('app running');
+});
 
-app.listen(3000, () => {
-	console.log('listening on 3000');
-})
+var io = socket(server)
+socketIds = new Map()
+
+io.on('connection', function (socket) {
+	console.log('Client connected...');
+
+
+	socket.on('chat message', (msg) => {
+		//msg to mongo
+		console.log('server got message')
+		// console.log(msg.to)
+		io.to(msg.to).emit('sent message',msg)
+		// console.log(msg)
+
+	})
+
+
+	socket.on('user', (msg) => {
+		// console.log('xaxax'+ Object.values(map))
+		if (!Object.values(socketIds).includes(msg)) {
+			socketIds.set(msg, socket.id);
+		}
+		console.log(socketIds)
+		io.emit('ids', Array.from(socketIds));
+		
+	})
+	socket.on('disconnect', (msg)=> {
+		console.log('dc')
+		// socketIds.delete
+		
+	})
+});
+
+
+

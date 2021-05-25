@@ -204,6 +204,136 @@ background: linear-gradient(353deg, rgba(3,133,252,1) 52%, rgba(2,29,59,1) 100%)
 
 
 
+
+/*#region for messages page ---------------------------------------*/
+#messages-page {
+	overflow-x: hidden;
+	background-color: white;
+	
+}
+
+#messages-page .navbar-container {
+	background-color: white;
+	border-bottom: 1px solid rgb(147, 149, 151);	
+}
+#messages-page nav .navbar-nav li a  {
+	color: gray;
+	
+}
+#messages-page nav .navbar-nav li a:hover{
+	color: #3a7bd5;
+}
+
+#messages-page #login-button>span {
+	color:gray;
+}
+
+.chatUser {
+	width: 100%;
+	border: none;
+	color: black;
+	border-bottom: 1px solid rgba(33, 156, 238, 0.404);	
+	background-color: transparent;
+	margin-top: 10%;
+	font-size: 1.2rem;
+}
+
+.messenger {
+	height: calc(100vh - 70px);
+	
+}
+.msg {
+	border-radius: 15px;
+	background-color: blue;
+	font-size: 1.2rem;
+	padding-right: 10%;
+}
+.msg p {
+	padding-right: 10%;
+}
+
+
+.chatBox {
+
+
+	height: 95vh;
+	
+}
+.messages {
+	
+	
+    overflow:scroll; 
+	height: 350px;
+	overflow-x: hidden;
+	background-color: transparent;
+	border-bottom: 1px solid rgba(33, 156, 238, 0.404);	
+}
+.msg{
+    display: block;
+    margin: 20px;
+    padding: 20px;
+    background: #ccc;
+    width: 100%;        
+	background-color: #0aa1ec;
+}
+.messages-form {
+	/* position: absolute; */
+	padding-top: 5%;
+	text-align: center;
+
+	bottom: 100px;
+	/* width: 100%; */
+}
+#messages-page #send {
+	margin-bottom: 5%;
+}
+.selectedUser {
+	border: 5px solid #0aa1ec;
+	border-radius: 10px;
+	font-size: 2rem;
+}
+.messages-form textarea {
+	
+	border-radius: 15px;
+	
+}
+
+/* .chatMenuWrapper, .chatBoxWrapper {
+	padding: 10px;
+	height: 100%;
+	
+} */
+
+
+
+
+
+
+
+/*#endregion --------------------------------------------*
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /*#region for navbar categories ------------------------------------*/
 
 .navbar-joblinks {
@@ -254,6 +384,14 @@ background: linear-gradient(353deg, rgba(3,133,252,1) 52%, rgba(2,29,59,1) 100%)
 
 
 /*#endregion for navbar categories ----------------------------------*/
+
+
+
+
+
+
+
+
 
 
 
