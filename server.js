@@ -21,7 +21,7 @@ const underscore = require('underscore');
 var socket = require('socket.io');
 require('moment/locale/bg')
 
-mongoose.connect('mongodb://localhost:27017/freelance', { useNewUrlParser: true, useUnifiedTopology: true, ignoreUndefined: true, useFindAndModify: false });
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost:27017/freelance', { useNewUrlParser: true, useUnifiedTopology: true, ignoreUndefined: true, useFindAndModify: false });
 
 
 
@@ -66,7 +66,7 @@ app.use('/specialists', specialistsRouter);
 
 app.get('/', (req, res) => {
 
-	
+
 	console.log('home');
 	if (req.user) {
 		const lo = _.omit(JSON.parse(JSON.stringify(req.user)), ['password']);
@@ -108,7 +108,7 @@ io.on('connection', function (socket) {
 		//msg to mongo
 		console.log('server got message')
 		// console.log(msg.to)
-		io.to(msg.to).emit('sent message',msg)
+		io.to(msg.to).emit('sent message', msg)
 		// console.log(msg)
 
 	})
@@ -121,12 +121,12 @@ io.on('connection', function (socket) {
 		}
 		console.log(socketIds)
 		io.emit('ids', Array.from(socketIds));
-		
+
 	})
-	socket.on('disconnect', (msg)=> {
+	socket.on('disconnect', (msg) => {
 		console.log('dc')
 		// socketIds.delete
-		
+
 	})
 });
 
