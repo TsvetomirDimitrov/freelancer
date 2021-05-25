@@ -3,7 +3,7 @@ const Job = require('../models/jobsModel');
 const ObjectId = require('mongodb').ObjectID;
 const moment = require('moment');
 const _ = require('lodash');
-moment.locale('bg');
+// moment.locale('en');
 
 
 
@@ -12,7 +12,7 @@ router.get('/category/:id', (req, res)=>{
 	const search = req.params.id;
 	Job.find({category:{$in:[search]}}).populate('createdBy').exec((err, job) => {
 			
-		res.render('all-jobs', { jobs: job, moment: moment })
+		res.render('all-jobs', { jobs: job})
 
 		console.log(job)
 		

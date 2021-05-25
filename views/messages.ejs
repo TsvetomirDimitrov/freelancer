@@ -8,23 +8,20 @@
 
 			<div class="container">
 				<div class="row">
-					<div class="col-md-4">
-
-
-
-						<input type="text" placeholder="Разговори" class="chatMenuInput">
+					<div class="col-md-4" id="pick-user">
+						<span>Избери разговор</span>
 						<div class="users">
 
 						</div>
-
-
 					</div>
 					<div class="col-md-8 chat-container">
 
 						<div id="messages" class="messages">
+							<span>
 
+							</span>
 						</div>
-						<div class="form messages-form">
+						<div class="form messages-form hideContent">
 							<textarea name="text" id="text" cols="80" rows="2"></textarea>
 							<button class="btn btn-success" id="send" type="submit">Изпрати</button>
 						</div>
@@ -44,10 +41,10 @@
 			<!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script> -->
 			<script>
 
-				moment.locale('bg')
+
 
 				let socketIds = new Set;
-				var io = io.connect('http://localhost:3000');
+				var io = io.connect('http://localhost:3000' || process.env.PORT);
 				io.on('connect', function (data) {
 					io.emit('user', '<%=currentUser.id%>')
 					io.on('ids', (msg) => {
@@ -81,6 +78,7 @@
 
 					const res = await axios.get('/conversations/<%=currentUser.id%>').then(res => {
 						// console.log(res.data)
+
 						res.data.forEach(a => {
 
 							if (a.members[0] != '<%=currentUser.id%>') {
@@ -125,10 +123,9 @@
 						sendTo = '';
 						$(document).on('click', '.chatUser', async function (e) {
 
-							console.log(moment.locale())
 							$(this).addClass('selectedUser')
 							$('.chatUser').not(this).removeClass('selectedUser')
-
+							$('.messages-form').removeClass('hideContent')
 
 
 							sendTo = '';
@@ -170,16 +167,20 @@
 
 
 							const getMessages = axios.get('/messages/' + convoId).then(res => {
-								console.log(res.data)
+								// console.log(res.data)
 
 								res.data.forEach(el => {
 
-									// console.log(el.sender == '<%=currentUser.id%>')
+									console.log(moment(el.createdAt).startOf('hour').fromNow())
 									if (el.sender != '<%=currentUser.id%>') {
-										$(".messages").append(`<div class="msg" style="text-align: right; width=150px;"><p style="color:red;">${value}: <br>${el.text}<br>${moment(el.createdAt, "YYYYMMDD").fromNow()}</p></div>`)
+										$(".messages").append(`<div class="msg" style="text-align: right; width=150px;"><p class ="receivedMsg">${value}: <span id="createdAt">${moment(el.createdAt).locale('bg').calendar()} </span> <br>${el.text}<br></p></div>`)
 									} else if (el.sender == '<%=currentUser.id%>') {
 										// console.log(el.sender)
-										$(".messages").append(`<div class="msg" style="text-align: left;"><p style="color:blue;text-align="right">Вие: <br>${el.text} ${moment(el.createdAt, "YYYYMMDD").fromNow()}</p></div>`)
+										$(".messages").append(`<div class="msg" style="text-align: left;"><p class ="sentMsg">Вие: <span id="createdAt">${moment(el.createdAt).locale('bg').calendar()} </span> <br>${el.text}</p>
+											
+											
+											
+											</div>`)
 									}
 
 
@@ -196,7 +197,7 @@
 
 
 							console.log(chattingWithId, msg)
-							$(".messages").append(`<div class="msg">${otherNickname}: <br> <p style="text-align: right; width=150px;">${msg.text}</p></div>`)
+							$(".messages").append(`<div class="msg">${otherNickname}: <span id="createdAt">${moment(msg.text.createdAt).locale('bg').calendar()} </span> <br> <p class ="receivedMsg">${msg.text}</p></div>`)
 							$('#messages').scrollTop(Number.MAX_SAFE_INTEGER);
 
 						})
@@ -223,20 +224,9 @@
 									conversationId: conversationId
 								}
 								const res = await axios.post("/messages", message);
-								$(".messages").append(`<div class="msg">Вие: <br> <p style="color:blue;">${text}</p></div>`)
+								$(".messages").append(`<div class="msg">Вие <span id="createdAt">${moment(text.createdAt).locale('bg').calendar()} </span> <br> <p class ="sentMsg">${text}</p></div>`)
 							}
 							$('#messages').scrollTop(Number.MAX_SAFE_INTEGER);
-
-
-
-
-
-
-
-
-
-
-
 
 
 							io.emit('chat message', {
@@ -247,7 +237,39 @@
 							$('#text').val('');
 							return false;
 						})
+
+
+						
 					})
+					$("#text").keypress( async function (e) {
+							if (e.which === 13 && !e.shiftKey) {
+								e.preventDefault();
+
+								$(this).closest("form").submit();
+								let text = $('#text').val();
+							e.preventDefault();
+							// console.log(conversationId)
+							if (text != '') {
+								const message = {
+									sender: '<%=currentUser.id%>',
+									text: text,
+									conversationId: conversationId
+								}
+								const res = await axios.post("/messages", message);
+								$(".messages").append(`<div class="msg">Вие <span id="createdAt">${moment(text.createdAt).locale('bg').calendar()} </span> <br> <p class ="sentMsg">${text}</p></div>`)
+							}
+							$('#messages').scrollTop(Number.MAX_SAFE_INTEGER);
+
+
+							io.emit('chat message', {
+								from: '<%=currentUser.id%>',
+								to: sendTo[1],
+								text: $('#text').val()
+							})
+							$('#text').val('');
+							return false;
+							}
+						});
 				}
 				getConversation()
 
