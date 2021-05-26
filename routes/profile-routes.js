@@ -5,7 +5,6 @@ const User = require('../models/userModel');
 const methodOverride = require('method-override');
 const ObjectId = require('mongodb').ObjectID;
 const Offer = require('../models/offersModel');
-const SubOffer = require('../models/subOfferModel');
 router.use(methodOverride('_method'));
 
 router.use(express.urlencoded({ extended: true }))
@@ -164,11 +163,6 @@ router.post('/createOffer', authCheck, async (req, res) => {
 
 	}
 
-
-
-
-
-
 	await new Offer({
 
 		name: req.body.jobName,
@@ -183,23 +177,7 @@ router.post('/createOffer', authCheck, async (req, res) => {
 		}))
 	res.redirect('/profile')
 
-
-
-
-
-	// await new Offer({
-	// 	name: req.body.jobName,
-	// 	description: req.body.jobDesc,
-	// 	deadline: req.body.jobDeadline,
-	// 	price: req.body.jobPrice,
-	// 	category: req.body.jobCategory,
-	// 	createdBy: req.user.id
-	// }).save()
-	// .then(console.log('offer created'))
-	// res.redirect('/profile')
-
 })
-
 
 
 
