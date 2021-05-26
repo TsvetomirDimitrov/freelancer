@@ -181,9 +181,6 @@ router.post('/createOffer', authCheck, async (req, res) => {
 
 
 
-
-
-
 router.post('/createJob', (req, res) => {
 	const tags = req.body.jobTags.replace(/[ ,]+/g, ",").toLowerCase();
 	console.log(typeof tags);
