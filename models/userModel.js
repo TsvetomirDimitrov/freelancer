@@ -43,7 +43,8 @@ const userSchema = new Schema({
 		title: String,
 		postedBy: {
 			type: Schema.Types.ObjectId,
-			ref: 'User'},
+			ref: 'User'
+		},
 		text: String
 	}]
 }, { timestamps: true });

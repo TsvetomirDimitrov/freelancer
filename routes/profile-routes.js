@@ -5,7 +5,7 @@ const User = require('../models/userModel');
 const methodOverride = require('method-override');
 const ObjectId = require('mongodb').ObjectID;
 const Offer = require('../models/offersModel');
-
+const SubOffer = require('../models/subOfferModel');
 router.use(methodOverride('_method'));
 
 router.use(express.urlencoded({ extended: true }))
@@ -40,17 +40,17 @@ router.get('/jobs/edit/:id', async (req, res) => {
 })
 
 
-router.put('/edit/:id',  async(req, res)=> {
+router.put('/edit/:id', async (req, res) => {
 	const newSkills = req.body.skills.replace(/[ ,]+/g, ",").toLowerCase();
 	const skills = newSkills.split(',');
 	console.log(skills);
-	User.findOneAndUpdate({_id: new ObjectId(req.params.id)},{$addToSet:{skills:skills}})
-	.exec((err, result)=>{
-		console.log(result);
-	})
-	User.findOneAndUpdate({_id: new ObjectId(req.params.id)},{description:req.body.description, phone: req.body.phone, city:req.body.city},(err, result)=>{
+	User.findOneAndUpdate({ _id: new ObjectId(req.params.id) }, { $addToSet: { skills: skills }, description: req.body.description, phone: req.body.phone, city: req.body.city })
+		.exec((err, result) => {
+			console.log(result);
+		})
+	// User.findOneAndUpdate({ _id: new ObjectId(req.params.id) }, { description: req.body.description, phone: req.body.phone, city: req.body.city }, (err, result) => {
 	// 	const userId = new ObjectId(req.user.id);
-	
+
 	// const jobs =  Job.find().populate("createdBy")
 	// 	.exec((err, result) => {
 	// 		const job = result.filter(val => val.createdBy.id == userId);
@@ -60,17 +60,17 @@ router.put('/edit/:id',  async(req, res)=> {
 	// 	});
 	res.redirect('/profile')
 
-	})
-		
-		
-	})
+})
+
+
+// })	
 
 router.put('/jobs/edit/:id', async (req, res) => {
 	console.log(req.params.id);
 	await Job.findById({ _id: new ObjectId(req.params.id) }).populate("createdBy").exec(async (err, job) => {
 		if (req.user) {
 			if (job.createdBy.id === req.user.id) {
-				await Job.findByIdAndUpdate({ _id: new ObjectId(req.params.id) }, { name: req.body.jobName, description: req.body.jobDesc, price: req.body.jobPrice, deadline: req.body.jobDeadline, category:req.body.jobCategory })
+				await Job.findByIdAndUpdate({ _id: new ObjectId(req.params.id) }, { name: req.body.jobName, description: req.body.jobDesc, price: req.body.jobPrice, deadline: req.body.jobDeadline, category: req.body.jobCategory })
 					.exec((err, job) => {
 						console.log("this is jobs edit")
 						// res.render('edit-job', { job: job })
@@ -118,42 +118,93 @@ router.delete('/jobs/delete/:id', async (req, res) => {
 
 router.get('/', authCheck, async (req, res) => {
 	const userId = new ObjectId(req.user.id);
-	
+
 	await Job.find().populate("createdBy")
 		.exec(async (err, result) => {
 			await Offer.find().populate('createdBy')
-			.exec((err, offer)=> {
+				.exec((err, offer) => {
 
-			const offers = offer.filter(offer => offer.createdBy.id== userId);
-			const job = result.filter(val => val.createdBy.id == userId);
-			res.render('profile', { jobs: job, offers:offers});
-			})
+					const offers = offer.filter(offer => offer.createdBy.id == userId);
+					const job = result.filter(val => val.createdBy.id == userId);
+					res.render('profile', { jobs: job, offers: offers });
+				})
 
 		});
-	})
+})
 
 router.get('/createJob', authCheck, (req, res) => {
 	res.render('createJob', { user: req.user })
 })
 
-router.get('/createOffer', authCheck, (req, res)=> {
-	res.render('createOffer', {user: req.user})
+router.get('/createOffer', authCheck, (req, res) => {
+	res.render('createOffer', { user: req.user })
 })
 
-router.post('/createOffer', authCheck, async (req, res)=> {
+
+router.post('/createOffer', authCheck, async (req, res) => {
+
+	// { $push: { comments: { text: commentText, postedBy: postedBy }
+	const offerName = req.body.jobName;
+	// console.log(req.body.standardPackPrice)
+	console.log(offerName)
+	let package = {
+		packageType: "starter",
+		packagePrice: req.body.starterPackPrice,
+		packageDescription: req.body.starterPackDescription,
+		packageRevisions: req.body.starterPackRevisions,
+		packageDeliveryTime: req.body.starterPackDeliveryTime
+	}
+
+	let standardPackage = {
+		standardPackageType: "standard",
+		standardPackagePrice: req.body.standardPackPrice,
+		standardPackageDescription: req.body.standardPackDescription,
+		standardPackageRevisions: req.body.standardPackRevisions,
+		standardPackageDeliveryTime: req.body.standardPackDeliveryTime
+
+	}
+
+
+
+
+
 
 	await new Offer({
+
 		name: req.body.jobName,
 		description: req.body.jobDesc,
-		deadline: req.body.jobDeadline,
-		price: req.body.jobPrice,
+		startingPrice: req.body.jobPrice,
+		packages: [package],
 		category: req.body.jobCategory,
 		createdBy: req.user.id
-	}).save()
-	.then(console.log('offer created'))
+	}).save().then(
+		Offer.findOneAndUpdate({ name: offerName }, { $addToSet: { packages: [standardPackage] } }).exec((err, offer) => {
+			console.log(offer)
+		}))
 	res.redirect('/profile')
 
+
+
+
+
+	// await new Offer({
+	// 	name: req.body.jobName,
+	// 	description: req.body.jobDesc,
+	// 	deadline: req.body.jobDeadline,
+	// 	price: req.body.jobPrice,
+	// 	category: req.body.jobCategory,
+	// 	createdBy: req.user.id
+	// }).save()
+	// .then(console.log('offer created'))
+	// res.redirect('/profile')
+
 })
+
+
+
+
+
+
 
 router.post('/createJob', (req, res) => {
 	const tags = req.body.jobTags.replace(/[ ,]+/g, ",").toLowerCase();

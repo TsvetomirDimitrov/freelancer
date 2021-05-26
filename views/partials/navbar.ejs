@@ -1,7 +1,7 @@
 <div class="container navbar-container">
 	<nav class="navbar navbar-expand-lg navbar-dark">
 		<div class="container-fluid">
-			<a class="navbar-brand" href="/">Freelancer BG</a>
+			<a class="navbar-brand" id="site-logo" href="/">Freelancer BG</a>
 
 			<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
 				data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -69,15 +69,15 @@
 
 										<form id="loginForm" action="/auth/local" method="POST">
 											<div class="mb-3">
-												<label for="exampleInputEmail1" class="form-label">Email</label>
+												<label for="email" class="form-label">Email</label>
 												<input type="email" name="email" class="form-control"
-													id="exampleInputEmail1" aria-describedby="emailHelp">
-												<div id="emailHelp" class="form-text"> </div>
+													id="email" aria-describedby="loginEmailHelp">
+												<div id="emailHelp2" class="form-text"> </div>
 											</div>
 											<div class="mb-3">
-												<label for="exampleInputPassword1" class="form-label">Парола</label>
+												<label for="loginPassword" class="form-label">Парола</label>
 												<input type="password" name="password" class="form-control"
-													id="exampleInputPassword1">
+													id="loginPassword">
 											</div>
 											<div id="loginPopup" style="color: red;"></div>
 											<button type="submit" class="btn btn-success">Вход</button>
@@ -143,38 +143,38 @@
 
 										<form id="registerForm" action="/auth/local" method="POST">
 											<div class="mb-3">
-												<label for="exampleInputEmail1" class="form-label">Име</label>
+												<label for="name" class="form-label">Име</label>
 												<input type="text" name="name" class="form-control"
-													id="exampleInputEmail1" aria-describedby="emailHelp">
-												<div id="emailHelp" class="form-text"></div>
+													id="name" aria-describedby="nameHelp">
+												<div id="nameHelp" class="form-text"></div>
 											</div>
 											<div class="mb-3">
-												<label for="exampleInputEmail1" class="form-label">Фамилия</label>
+												<label for="surname" class="form-label">Фамилия</label>
 												<input type="text" name="surname" class="form-control"
-													id="exampleInputEmail1" aria-describedby="emailHelp">
-												<div id="emailHelp" class="form-text"></div>
+													id="surname" aria-describedby="surnameHelp">
+												<div id="surnameHelp" class="form-text"></div>
 											</div>
 											<div class="mb-3">
 												<label for="registrationNickname" class="form-label">Потребителско
 													име</label>
 												<input type="text" name="nickname" class="form-control"
-													id="registrationNickname" aria-describedby="emailHelp">
-												<div id="emailHelp" class="form-text"></div>
+													id="registrationNickname" aria-describedby="nicknameHelp">
+												<div id="nicknameHelp" class="form-text"></div>
 												<div id="nicknameAvailable"></div>
 											</div>
 											
 											<div class="mb-3">
 												<label for="registrationEmail" class="form-label">Email</label>
 												<input type="email" name="email" class="form-control"
-													id="registrationEmail" aria-describedby="emailHelp">
+													id="registrationEmail" aria-describedby="registerEmailHelp">
 												<div id="emailHelp" class="form-text"></div>
 											</div>
 											<div id="emailAvailable"></div>
 
 											<div class="mb-3">
-												<label for="exampleInputPassword1" class="form-label">Парола</label>
+												<label for="registrationPassword" class="form-label">Парола</label>
 												<input type="password" name="password" class="form-control"
-													id="exampleInputPassword1">
+													id="password">
 											</div>
 
 

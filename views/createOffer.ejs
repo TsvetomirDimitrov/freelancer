@@ -4,7 +4,7 @@
 
 		<%- include ('./partials/navbar') %>
 			<div class="container create-job-heading">
-				<h1>Създай оферта</h1>
+				<h1>Създай предложение</h1>
 			</div>
 			<div class="container create-job-container">
 				<div class="row">
@@ -20,14 +20,31 @@
 								<textarea name="jobDesc" rows="5" id="description-box"></textarea>
 							</div>
 							<div class="mb-3">
-								<label for="jobDeadline" class="form-label">Срок за изпълнение </label>
-								<input type="text" name="jobDeadline" class="form-control" aria-describedby="emailHelp">
-							</div>
-							<div class="mb-3">
-								<label for="jobPrice" class="form-label">Цена</label>
+								<label for="jobPrice" class="form-label">Минимална цена</label>
 								<input type="text" name="jobPrice" class="form-control" aria-describedby="emailHelp">
 							</div>
-							
+							<div class="packs">
+								<div class="mb-3 offer-package">
+									<label for="starter-pack" class="form-label">Стартов пакет</label>
+									<br>
+									<label for="starterPackPrice" class="form-label">Цена</label>
+									<input type="text" name="starterPackPrice" class="form-control"
+										aria-describedby="emailHelp">
+
+									<label for="starterPackDescription" class="form-label">Описание</label>
+									<textarea name="starterPackDescription" rows="5" id="description-box"></textarea>
+
+									<label for="starterPackRevisions" class="form-label">Брой ревизии</label>
+									<input type="text" name="starterPackRevisions" class="form-control"
+										aria-describedby="emailHelp">
+
+										<label for="starterPackDeliveryTime" class="form-label">Срок на изпълнение</label>
+										<input type="number" name="starterPackDeliveryTime" class="form-control"
+											aria-describedby="emailHelp">
+								</div>
+
+								<button id="newPack1">Добави пакет</button>
+							</div>
 							<div class="mb-3">
 								<label for="jobTags" class="form-label">Категория</label>
 								<select name="jobCategory" class="form-select" aria-label="Default select example">
@@ -43,7 +60,7 @@
 								</select>
 							</div>
 
-							<button type="submit" class="btn btn-primary">Submit</button>
+							<button id="formSubmit" class="btn btn-primary">Submit</button>
 						</form>
 					</div>
 				</div>
@@ -57,7 +74,57 @@
 
 
 
+			<script>
 
+					$(document).on('click', '#newPack1',  function (e) {
+						$('#newPack1').prop('disabled', true)
+						$('.packs').append(
+							`
+							<div class="mb-3 offer-package">
+									<label for="standard-pack" class="form-label">Стандартен пакет</label>
+<br>
+									<label for="standardPackPrice" class="form-label">Цена</label>
+									<input type="text" name="standardPackPrice" class="form-control"
+										aria-describedby="emailHelp">
+
+									<label for="standardPackDescription" class="form-label">Описание</label>
+									<textarea name="standardPackDescription" rows="5" id="description-box"></textarea>
+
+									<label for="standardPackRevisions" class="form-label">Брой ревизии</label>
+									<input type="text" name="standardPackRevisions" class="form-control"
+										aria-describedby="emailHelp">
+								</div>
+								<button id="newPack2">Добави пакет</button>`
+						)
+					})
+					$(document).on('click', '#newPack2',  function (e) {
+						$('#newPack2').prop('disabled', true)
+						$('.packs').append(
+							`
+							<div class="mb-3 offer-package">
+									<label for="premium-pack" class="form-label">Премиум пакет</label>
+<br>
+									<label for="premiumPackPrice" class="form-label">Цена</label>
+									<input type="text" name="premiumPackPrice" class="form-control"
+										aria-describedby="emailHelp">
+
+									<label for="premiumPackDescription" class="form-label">Описание</label>
+									<textarea name="premiumPackDescription" rows="5" id="description-box"></textarea>
+
+									<label for="premiumPackRevisions" class="form-label">Брой ревизии</label>
+									<input type="text" name="premiumPackRevisions" class="form-control"
+										aria-describedby="emailHelp">
+								</div>
+								<button id="newPack2">Добави пакет</button>`
+						)
+					})
+
+					$(document).ready(function(){
+    $("#formSubmit").click(function(){        
+        $("#create-job-form").submit(); // Submit the form
+    });
+});
+			</script>
 
 
 			<%-include('./partials/footer.ejs')%>

@@ -27,7 +27,7 @@
 						<div class="container">
 						<div class="row">
 							<div class="col-md-6">
-								<span id="specialists-description">Открий правилният специалист за твоите нужди!</span>
+								<span id="specialists-description">Открий правилния специалист за твоите нужди!</span>
 							</div>
 							<div class="col-md-6" style="height: 30%;">
 								<img id="work-together-img" src="../public/images/undraw_work_together_h63l.svg" alt="" srcset="">
@@ -59,7 +59,7 @@
 											Умения
 											<br>
 											<br>
-											<%= res.skills.join(' ')%>
+											<%= res.skills.join(', 	').trim()%>
 										</h5>
 										<br>
 										<p style="color: black;" class="card-text"><%=res.description%></p>

@@ -16,7 +16,7 @@
 					</li>
 					<li class="nav-item" role="presentation">
 						<button class="nav-link links" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile"
-							type="button" role="tab" aria-controls="profile" aria-selected="true">Моите оферти</button>
+							type="button" role="tab" aria-controls="profile" aria-selected="true">Моите предложения</button>
 					</li>
 					<li class="nav-item" role="presentation">
 						<button class="nav-link links" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact"
@@ -54,16 +54,15 @@
 														<%= job.description %>
 													</div>
 													<div class="container">
-														<div class="row" style="text-align: end; margin-bottom: 2%;">
-															<div class="col-md-6">
-																<form action="/profile/jobs/edit/<%=job.id%>">
+														<div class="row" style="text-align: end; margin-bottom: 2%; ">
+																
+																<form style ="display: inline-block; margin-bottom: 2%;" action="/profile/jobs/edit/<%=job.id%>">
 
 																	<button class='btn btn-info'
 																		type='submit'>Промени</button>
 																</form>
 
-															</div>
-															<div class="col-md-6">
+															
 																<form
 																	action="/profile/jobs/delete/<%=job.id%>?_method=DELETE"
 																	method="post">
@@ -71,7 +70,7 @@
 																	<button class='btn btn-danger'
 																		type='submit'>Изтрий</button>
 																</form>
-															</div>
+															
 														</div>
 													</div>
 												</div>
@@ -96,7 +95,7 @@
 					<div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
 						<div class="container">
 							<a href="/profile/createOffer"><button class="btn btn-success"
-									style="margin-top: 2%; margin-bottom: 2%;">Нова оферта</button></a>
+									style="margin-top: 2%; margin-bottom: 2%;">Ново предложение</button></a>
 							<div class="row">
 								<% if(Array.isArray(offers) && offers.length !==0){ %>
 									<%offers.forEach(offer=> { %>
@@ -108,25 +107,14 @@
 													<h5 class="card-title">
 														<%=offer.name%>
 													</h5>
-													<p class="card-text">
+													<p style="color: black;" class="card-text">
 														<%=offer.description%>.
 													</p>
 												</div>
-												<ul class="list-group list-group-flush">
-													<li class="list-group-item">
-														<%=offer.price%>
-													</li>
-													<li class="list-group-item">
-														<%=offer.deadline%>
-													</li>
-													<li class="list-group-item">
-														<%=offer.category%>
-													</li>
-													<li class="list-group-item">A third item</li>
-												</ul>
+												
 												<div class="card-body">
-													<a href="" class="card-link">Card link</a>
-													<a href="#" class="card-link">Another link</a>
+													<a href="/specialists/offer/<%=offer.id%>" class="card-link"> <p style="color: rgb(4, 119, 196);"> Към предложението</p></a>
+													<!-- <a href="#" class="card-link">Another link</a> -->
 												</div>
 											</div>
 										</div>

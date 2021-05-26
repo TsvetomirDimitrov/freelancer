@@ -8,6 +8,7 @@ const _ = require('lodash');
 
 
 
+
 router.get('/category/:id', (req, res)=>{
 	const search = req.params.id;
 	Job.find({category:{$in:[search]}}).populate('createdBy').exec((err, job) => {
@@ -61,6 +62,12 @@ router.get('/:id', async (req, res) => {
 		res.render('single-job', { job: job})
 	})
 })
+
+
+
+//offers
+
+
 
 
 

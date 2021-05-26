@@ -83,6 +83,7 @@
 					</div>
 					<div class="col-md-8">
 						<div class="container">
+							<p style="color: black; margin-top: 5%; font-size: 1.1rem; text-align: center;">Активни предложения</p>
 							<div class="row">
 						<%offers.forEach(offer=> { %>
 							
@@ -102,11 +103,10 @@
 									<ul class="list-group list-group-flush">
 										<li class="list-group-item">Минимален срок: <%= offer.deadline %> дни</li>
 										<li class="list-group-item">Минимална цена: <%= offer.price %> лв.</li>
-										<li class="list-group-item">A third item</li>
 									</ul>
 									<div class="card-body">
-										<a href="#" class="card-link">Card link</a>
-										<a href="#" class="card-link">Another link</a>
+										<a href= "/specialists/offer/<%=offer.id%>" style="color: rgb(6, 84, 185);"class="card-link">Виж пълната обява</a>
+										
 									</div>
 								</div>
 						
@@ -140,8 +140,9 @@
 
 											<br>
 											<div class="single-comment">
-												<span>От: <%=comment.postedBy.nickname%></span>
+												<span>От:<a style="color: rgb(0, 112, 218);"href="/specialists/<%=comment.postedBy.nickname%>"><%=comment.postedBy.nickname%></span></a> 
 												<br>
+											
 												<span>
 													<%=comment.text%>
 												</span>
@@ -157,7 +158,7 @@
 												потребителя</label>
 											<textarea name="commentText" class="form-control" id="commentText"
 												rows="3"></textarea>
-											<button class="btn btn-success" type="submit">Публикувай</button>
+											<button class="btn btn-success" style="margin-top: 2%;" type="submit">Публикувай</button>
 										</form>
 									</div>
 								</div>
@@ -224,9 +225,10 @@
 					})
 				})
 
-				AOS.init();
+				
 			</script>
 
+			
 
 			<div class="tab-content" id="nav-tabContent">
 				<div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">...

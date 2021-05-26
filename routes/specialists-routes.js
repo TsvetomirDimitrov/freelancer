@@ -85,6 +85,16 @@ router.post('/:id/newComment', async (req, res) => {
 })
 
 
+//offers
+
+
+router.get('/offer/:id', async (req, res)=> {
+	const id = new ObjectId(req.params.id);
+	await Offer.findOne({_id: id}).populate('createdBy').exec((err, job) => { 
+		res.render('single-offer', {job:job})
+	})
+	
+})
 
 
 module.exports = router;

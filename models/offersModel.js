@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-mongoose.connect('mongodb://localhost:27017/freelance', { useNewUrlParser: true });
 
 
 const offerSchema = new Schema({
@@ -12,20 +11,32 @@ const offerSchema = new Schema({
 		type: String,
 		required: true
 	},
-	price: {
+	startingPrice: {
 		type: Number,
 		required: true
 	},
-	deadline: {
-		type: String,
-		required: true
-	},
-	category:{
-		type: String,
-		required: true
-	},
-	tags: [{
-		type: String
+	packages: [{
+		packageType: {
+			type: String,
+			required: true
+		},
+		packagePrice: {
+			type: Number,
+			required: true
+		},
+		packageDescription: {
+			type: String,
+			required: true
+		},
+		packageRevisions: {
+			type: Number, 
+			required: true
+		},
+		packageDeliveryTime: {
+			type: Number,
+			required: true
+		}
+
 	}],
 	createdBy: {
 		type: Schema.Types.ObjectId,
