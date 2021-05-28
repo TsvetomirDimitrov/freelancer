@@ -41,12 +41,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 app.use(
-	helmet.contentSecurityPolicy({
-	  useDefaults: true,
-	  directives: {
-		"script-src": ["'self'", "freelancerbg.herokuapp.com"],
-		"style-src": null,
-	  },
+	helmet({
+	  contentSecurityPolicy: false,
 	})
   );
 app.set('views', 'views');
