@@ -47,7 +47,7 @@ app.use(cookieSession({
 	maxAge: 24 * 60 * 60 * 1000,
 	keys: [keys.session.cookieKey]
 }));
-app.use(expressValidator());
+
 app.set('trust proxy', 1);
 
 const limiter = rateLimit({
