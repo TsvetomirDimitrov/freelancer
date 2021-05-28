@@ -10,6 +10,7 @@ const conversationRouter = require('./routes/conversations-routes');
 const passportSetup = require('./config/passport-setup');
 const session = require('express-session')
 const rateLimit = require("express-rate-limit");
+const helmet = require('helmet');
 const keys = require('./config/keys');
 const cookieSession = require('cookie-session');
 const passport = require('passport');
@@ -39,7 +40,7 @@ app.use('/public', express.static('public'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
-
+app.use(helmet());
 
 app.set('views', 'views');
 app.set('view engine', 'ejs');
