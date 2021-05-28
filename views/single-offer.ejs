@@ -79,7 +79,7 @@
 			</div>
 			
 	
-			<script src='self'>
+			<script>
 				let job = '<%=job.createdBy.createdAt%>'
 				let created = moment(job).locale('bg').calendar()
 				$('#user-register-date').text(`Регистриран ${created}`)
