@@ -40,8 +40,15 @@ app.use('/public', express.static('public'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
-app.use(helmet());
-
+app.use(
+	helmet.contentSecurityPolicy({
+	  useDefaults: true,
+	  directives: {
+		"script-src": ["'self'", "freelancerbg.herokuapp.com"],
+		"style-src": null,
+	  },
+	})
+  );
 app.set('views', 'views');
 app.set('view engine', 'ejs');
 app.use(cookieSession({
