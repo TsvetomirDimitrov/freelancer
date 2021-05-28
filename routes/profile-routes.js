@@ -5,7 +5,7 @@ const User = require('../models/userModel');
 const methodOverride = require('method-override');
 const ObjectId = require('mongodb').ObjectID;
 const Offer = require('../models/offersModel');
-const sanitize = reqire('mongo-sanitize');
+const sanitize = require('mongo-sanitize');
 router.use(methodOverride('_method'));
 
 router.use(express.urlencoded({ extended: true }))
