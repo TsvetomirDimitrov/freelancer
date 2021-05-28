@@ -90,7 +90,7 @@ app.get('/why', (req, res) => {
 
 
 app.get('*', (req, res) => {
-	res.send('404 greshka')
+	res.send('Page not found')
 })
 
 var server = app.listen(process.env.PORT || 3000, function () {
