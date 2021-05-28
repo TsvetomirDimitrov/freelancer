@@ -2,6 +2,7 @@ const router = require('express').Router();
 const passport = require('passport');
 const flash = require('connect-flash');
 const User = require('../models/userModel');
+const sanitize = require('mongo-sanitize')
 //auth login
 
 router.use(flash());
@@ -28,9 +29,10 @@ router.get('/logout', (req, res) => {
 // 	}));
 
 router.get('/checknickname/:id', async (req, res) => {
+	const cleanNickname = sanitize(req.params.id);
 	const nickname = req.params.id;
 	console.log(nickname)
-	await User.findOne({ nickname: new RegExp(`^${nickname}$`, 'i') }).exec((err, result) => {
+	await User.findOne({ nickname: new RegExp(`^${cleanNickname}$`, 'i') }).exec((err, result) => {
 		if (result) {
 			res.send(JSON.stringify({ nick: "taken" }))
 		} else {
@@ -40,10 +42,11 @@ router.get('/checknickname/:id', async (req, res) => {
 
 })
 router.get('/checkemail/:id', async (req, res) => {
+	const cleanEmail = req.params.id;
 	const email = req.params.id;
 	console.log(email)
 	console.log('da')
-	await User.findOne({ email: new RegExp(`^${email}$`, 'i') }).exec((err, result) => {
+	await User.findOne({ email: new RegExp(`^${cleanEmail}$`, 'i') }).exec((err, result) => {
 		if (result) {
 			res.send(JSON.stringify({ nick: "taken" }))
 		} else {

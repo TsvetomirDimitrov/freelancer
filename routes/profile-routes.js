@@ -5,6 +5,7 @@ const User = require('../models/userModel');
 const methodOverride = require('method-override');
 const ObjectId = require('mongodb').ObjectID;
 const Offer = require('../models/offersModel');
+const sanitize = reqire('mongo-sanitize');
 router.use(methodOverride('_method'));
 
 router.use(express.urlencoded({ extended: true }))
@@ -42,8 +43,11 @@ router.get('/jobs/edit/:id', async (req, res) => {
 router.put('/edit/:id', async (req, res) => {
 	const newSkills = req.body.skills.replace(/[ ,]+/g, ",").toLowerCase();
 	const skills = newSkills.split(',');
-	console.log(skills);
-	User.findOneAndUpdate({ _id: new ObjectId(req.params.id) }, { $addToSet: { skills: skills }, description: req.body.description, phone: req.body.phone, city: req.body.city })
+	const cleanSkills = sanitize(newSkills)
+	const cleanDescription = sanitize(req.body.description)
+	const cleanPhone = sanitize(req.body.phone)
+	const cleanCity = sanitize(req.body.city)
+	User.findOneAndUpdate({ _id: new ObjectId(req.params.id) }, { $addToSet: { skills: cleanSkills }, description: cleanDescription, phone: cleanPhone, city: cleanCity })
 		.exec((err, result) => {
 			console.log(result);
 		})
@@ -68,8 +72,12 @@ router.put('/jobs/edit/:id', async (req, res) => {
 	console.log(req.params.id);
 	await Job.findById({ _id: new ObjectId(req.params.id) }).populate("createdBy").exec(async (err, job) => {
 		if (req.user) {
+			const cleanJobName = sanitize(req.body.jobName)
+			const cleanDescription = sanitize(req.body.jobDesc)
+			const cleanPrice = sanitize(req.body.jobPrice)
+			const cleanDeadline = sanitize(req.body.deadline)
 			if (job.createdBy.id === req.user.id) {
-				await Job.findByIdAndUpdate({ _id: new ObjectId(req.params.id) }, { name: req.body.jobName, description: req.body.jobDesc, price: req.body.jobPrice, deadline: req.body.jobDeadline, category: req.body.jobCategory })
+				await Job.findByIdAndUpdate({ _id: new ObjectId(req.params.id) }, { name: cleanJobName, description: cleanDescription, price: cleanPrice, deadline: cleanDeadline, category: req.body.jobCategory })
 					.exec((err, job) => {
 						console.log("this is jobs edit")
 						// res.render('edit-job', { job: job })
@@ -81,7 +89,7 @@ router.put('/jobs/edit/:id', async (req, res) => {
 			}
 		} else {
 
-			res.send('who u')
+			res.send('no access')
 		}
 	})
 })
@@ -107,7 +115,7 @@ router.delete('/jobs/delete/:id', async (req, res) => {
 			}
 		} else {
 
-			res.send('who u')
+			res.send('no access')
 		}
 
 	})

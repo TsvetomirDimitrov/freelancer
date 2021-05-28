@@ -3,12 +3,15 @@ const router = express.Router();
 const ObjectId = require('mongodb').ObjectID;
 const Conversation = require('../models/conversationModel')
 const User = require('../models/userModel');
+const sainitez = require('mongo-sanitize')
 
 //new conv
 
 router.post('/', async (req, res) => {
+	const cleanSender = sanitize(req.body.senderId);
+	const cleanReceiverId = sanitize(req.bodyy.receiverId)
 	const newConnversation = new Conversation({
-		members: [req.body.senderId, req.body.receiverId]
+		members: [cleanSender, cleanReceiverId]
 	})
 
 	try {
@@ -22,7 +25,8 @@ router.get('/getUser/:id', (req, res) => {
 	// console.log('here')
 	// console.log(req.params.id)
 	const id = new ObjectId(req.params.id);
-	User.findOne({ _id: id }).exec((err, user) => {
+	const cleanId = sanitize(new ObjectId(req.params.id))
+	User.findOne({ _id: cleanId }).exec((err, user) => {
 		// console.log(user)
 		res.send(user)
 	})

@@ -9,9 +9,11 @@ const messagesRouter = require('./routes/message-routes');
 const conversationRouter = require('./routes/conversations-routes');
 const passportSetup = require('./config/passport-setup');
 const session = require('express-session')
+const rateLimit = require("express-rate-limit");
 const keys = require('./config/keys');
 const cookieSession = require('cookie-session');
 const passport = require('passport');
+const expressValidator = require('express-validator');
 const methodOverride = require('method-override');
 const moment = require('moment');
 const _ = require('lodash');
@@ -45,7 +47,16 @@ app.use(cookieSession({
 	maxAge: 24 * 60 * 60 * 1000,
 	keys: [keys.session.cookieKey]
 }));
+app.use(expressValidator());
+app.set('trust proxy', 1);
 
+const limiter = rateLimit({
+	windowMs: 15 * 60 * 1000, // 15 minutes
+	max: 100 // limit each IP to 100 requests per windowMs
+  });
+  
+  //  apply to all requests
+  app.use(limiter);
 //initialize passport
 app.use(session({ secret: keys.passportSecret }))
 app.use(passport.initialize());
